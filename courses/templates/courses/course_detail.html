@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.title }}</title>
+</head>
+<body>
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+    <h2>Lessons</h2>
+
+    {% if course.lessons.all %}
+        <ul>
+            {% for lesson in course.lessons.all %}
+                <li>
+                    <strong>{{ lesson.title }}</strong><br>
+                    {% if lesson.video_url %}
+                        <a href="{{ lesson.video_url }}" target="_blank">Watch video</a><br>
+                    {% endif %}
+                    {% if lesson.description %}
+                        <p>{{ lesson.description }}</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No lessons added yet.</p>
+    {% endif %}
+    <p>Created at: {{ course.created_at }}</p>
+
+    {% if user.is_authenticated %}
+        {% if is_enrolled %}
+            <p>You are enrolled in this course.</p>
+        {% else %}
+            <form action="{% url 'enroll_course' course.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Enroll in this course</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p><a href="{% url 'login' %}?next={% url 'course_detail' course.pk %}">Log in</a> to enroll.</p>
+    {% endif %}
+
+
+    <p><a href="{% url 'course_list' %}">Back to all courses</a></p>
+</body>
+</html>

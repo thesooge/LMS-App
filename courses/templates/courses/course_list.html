@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+    <p>
+        {% if user.is_authenticated %}
+            Logged in as {{ user.username }}
+            <p><a href="{% url 'course_create' %}">Create new course</a> | <a href="{% url 'my_courses' %}">My courses</a></p>
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </p>
+
+    <h1>Available Courses</h1>
+
+    {% if courses %}
+        <ul>
+            {% for course in courses %}
+                    <li>
+                        <h2>
+                            <a href="{% url 'course_detail' course.pk %}">
+                                {{ course.title }}
+                            </a>
+                        </h2>
+                        <p>{{ course.description }}</p>
+                        <small>Created at: {{ course.created_at }}</small>
+                    </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No courses yet.</p>
+    {% endif %}
+</body>
+</html>
