@@ -80,3 +80,23 @@ class LessonCreateView(LoginRequiredMixin, CreateView):
         context["course"] = self.course
         return context
     
+@login_required
+def course_chat(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    if not Enrollment.objects.filter(user=request.user, course=course).exists():
+        return redirect('course_detail', course_id=course.pk)
+    
+    messages = course.messages.select_related('user').all()
+
+    return render(
+        request,
+        'courses/course_chat.html',
+        {
+            'course':course,
+            'messages': messages,
+        },
+    )
+
+
+

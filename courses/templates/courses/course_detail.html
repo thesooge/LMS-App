@@ -41,6 +41,7 @@
     {% endif %}
     <p>Created at: {{ course.created_at }}</p>
 
+
     {% if user.is_authenticated %}
         {% if is_enrolled %}
             <p>You are enrolled in this course.</p>
@@ -54,7 +55,9 @@
         <p><a href="{% url 'login' %}?next={% url 'course_detail' course.pk %}">Log in</a> to enroll.</p>
     {% endif %}
 
-
+    {% if user.is_authenticated and is_enrolled %}
+    <p><a href="{% url 'course_chat' course.pk %}">Open course chat</a></p>
+    {% endif %}       
     <p><a href="{% url 'course_list' %}">Back to all courses</a></p>
 </body>
 </html>
