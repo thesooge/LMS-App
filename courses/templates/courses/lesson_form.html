@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Lesson</title>
+</head>
+<body>
+    <h1>Add lesson to course</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save lesson</button>
+    </form>
+
+    <p><a href="{{ course.get_absolute_url }}">Back to course</a></p>
+</body>
+</html>

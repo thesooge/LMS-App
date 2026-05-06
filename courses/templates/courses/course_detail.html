@@ -6,7 +6,20 @@
 </head>
 <body>
     <h1>{{ course.title }}</h1>
+    <p>
+        Instructor:
+        {% if course.creator %}
+            {{ course.creator.username }}
+        {% else %}
+            (no instructor set)
+        {% endif %}
+    </p>
+
+    <p>Enrolled students: {{ course.enrollment_count }}</p>
     <p>{{ course.description }}</p>
+    {% if user.is_authenticated and course.creator == user %}
+        <p><a href="{% url 'lesson_create' course_id=course.pk %}">Add new lesson</a></p>
+    {% endif %}
     <h2>Lessons</h2>
 
     {% if course.lessons.all %}
