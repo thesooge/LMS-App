@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Question</title>
+</head>
+<body>
+    <h1>Add question to quiz</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save question</button>
+    </form>
+
+    <p><a href="{{ quiz.course.get_absolute_url }}">Back to course</a></p>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Choices</title>
+</head>
+<body>
+    <h1>Add answer choices for:</h1>
+    <p><strong>{{ question.text }}</strong></p>
+
+    <h2>Existing choices</h2>
+    {% if choices %}
+        <ul>
+            {% for choice in choices %}
+                <li>
+                    {{ choice.text }}
+                    {% if choice.is_correct %}
+                        (correct)
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No choices added yet.</p>
+    {% endif %}
+
+    <h2>Add a new choice</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label>Choice text:<br>
+                <input type="text" name="text" size="60" required>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="checkbox" name="is_correct">
+                Is this the correct answer?
+            </label>
+        </p>
+        <button type="submit">Add choice</button>
+    </form>
+
+    <p><a href="{{ question.quiz.course.get_absolute_url }}">Back to course</a></p>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Result</title>
+</head>
+<body>
+    <h1>Result for {{ attempt.quiz.title }}</h1>
+    <p>Score: {{ attempt.score }}%</p>
+
+    <ul>
+        {% for response in responses %}
+            <li>
+                <strong>{{ response.question.text }}</strong><br>
+                Your answer:
+                {% if response.selected_choice %}
+                    {{ response.selected_choice.text }}
+                    {% if response.selected_choice.is_correct %}
+                        (correct)
+                    {% else %}
+                        (incorrect)
+                    {% endif %}
+                {% else %}
+                    No answer
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{{ attempt.quiz.course.get_absolute_url }}">Back to course</a></p>
+</body>
+</html>

@@ -56,8 +56,33 @@
     {% endif %}
 
     {% if user.is_authenticated and is_enrolled %}
-    <p><a href="{% url 'course_chat' course.pk %}">Open course chat</a></p>
-    {% endif %}       
+        <p><a href="{% url 'course_chat' course.pk %}">Open course chat</a></p>
+    {% endif %}     
+    {% if user.is_authenticated and course.creator == user %}
+        <p><a href="{% url 'quiz_create' course_id=course.pk %}">Create new quiz</a></p>
+    {% endif %}  
+    {% if user.is_authenticated and course.creator == user %}
+        {% for quiz in course.quizes.all %}
+            <p>
+                Quiz: {{ quiz.title }}
+                <a href="{% url 'question_create' quiz_id=quiz.pk %}">Add question</a>
+            </p>
+        {% endfor %}
+    {% endif %}
+    {% if user.is_authenticated and is_enrolled %}
+    <h2>Quizzes</h2>
+        {% if course.quizes.all %}
+            <ul>
+                {% for quiz in course.quizes.all %}
+                    <li>
+                        <a href="{% url 'quiz_detail' quiz.pk %}">{{ quiz.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No quizzes yet.</p>
+        {% endif %}
+    {% endif %}
     <p><a href="{% url 'course_list' %}">Back to all courses</a></p>
 </body>
 </html>

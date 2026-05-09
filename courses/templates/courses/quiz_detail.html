@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz.title }}</title>
+</head>
+<body>
+    <h1>{{ quiz.title }}</h1>
+    <p>{{ quiz.description }}</p>
+    <p>Course: {{ quiz.course.title }}</p>
+
+    {% if questions %}
+        <p>This quiz has {{ questions|length }} questions.</p>
+        <form method="post" action="{% url 'quiz_start' quiz.pk %}">
+            {% csrf_token %}
+            <button type="submit">Start quiz</button>
+        </form>
+    {% else %}
+        <p>No questions in this quiz yet.</p>
+    {% endif %}
+
+    <p><a href="{{ quiz.course.get_absolute_url }}">Back to course</a></p>
+</body>
+</html>
